@@ -14,6 +14,7 @@ function createWindow () {
     }
   })
 
+  // It breaks http://google.com
   session.defaultSession.webRequest.onBeforeRequest(
     { urls: ['<all_urls>'] },
     (details, callback) => {
@@ -21,7 +22,7 @@ function createWindow () {
     },
   );
   
-  mainWindow.loadURL('http://google.com');
+  mainWindow.loadURL('https://google.com');
   mainWindow.on('closed', function () {
     mainWindow = null
   })
