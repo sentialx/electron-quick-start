@@ -22,7 +22,7 @@ function createWindow () {
     },
   );
   
-  mainWindow.loadURL('https://google.com');
+  mainWindow.loadURL('http://google.com');
   mainWindow.on('closed', function () {
     mainWindow = null
   })
