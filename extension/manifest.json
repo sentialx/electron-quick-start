@@ -8,5 +8,10 @@
       "js": ["content.js"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "background": {
+    "scripts": ["index.js"],
+    "persistent": true
+  },
+  "permissions": ["webRequest", "<all_urls>"]
 }
