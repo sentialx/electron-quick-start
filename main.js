@@ -1,19 +1,33 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, session, ipcMain} = require('electron')
 const path = require('path')
 
-function createWindow () {
+app.commandLine.appendSwitch('remote-debugging-port', '9222');
+
+async function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      sandbox: true,
+      nodeIntegration: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
     }
   })
 
+  ipcMain.handle('chrome.something', (e) => {
+    console.log(`webPreferences: ${e.sender.getWebPreferences()}`, `session: ${e.sender.session}`);
+  });
+
+  session.defaultSession.setPreloads([path.join(__dirname, 'preload.js')])
+
+  session.defaultSession.loadExtension(path.join(__dirname, 'extension'));
+
+  mainWindow.loadURL(`index.html`);
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

@@ -2,7 +2,7 @@
   "name": "electron-quick-start",
   "version": "1.0.0",
   "description": "A minimal Electron application",
-  "main": "build/main.bundle.js",
+  "main": "main.js",
   "scripts": {
     "start": "cross-env ENV='dev' electron .",
     "watch": "concurrently \"cross-env ENV='dev' webpack\" \"cross-env ENV='dev' webpack-dev-server --config webpack.config.web.js\"",
@@ -19,6 +19,6 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^8.2.1"
+    "electron": "9.0.0-beta.24"
   }
 }
