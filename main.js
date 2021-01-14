@@ -1,8 +1,16 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, session} = require('electron')
 const path = require('path')
+const http = require('http');
 
-function createWindow () {
+http
+  .createServer((req, res) => {
+    res.setHeader('Content-Security-Policy', 'frame-ancestors *');
+    res.end('Hello World');
+  })
+  .listen(8192);
+
+async function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -12,11 +20,12 @@ function createWindow () {
     }
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.webContents.openDevTools({ mode: 'detach' });
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  const extension = await session.defaultSession.loadExtension(path.resolve(__dirname, './test'));
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(`${extension.url}index.html`);
 }
 
 // This method will be called when Electron has finished
